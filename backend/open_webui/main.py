@@ -1,3 +1,8 @@
+# handle Chroma and Sqlite error: https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950
+#__import__('pysqlite3')
+#import sys
+#sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import asyncio
 import inspect
 import json
