@@ -29,6 +29,7 @@
 	let url = '';
 	let key = '';
 
+    let apiVersion = '';
 	let prefixId = '';
 	let enable = true;
 
@@ -89,6 +90,7 @@
 			config: {
 				enable: enable,
 				prefix_id: prefixId,
+				api_version:apiVersion,
 				model_ids: modelIds
 			}
 		};
@@ -101,6 +103,7 @@
 		url = '';
 		key = '';
 		prefixId = '';
+		apiVersion = '';
 		modelIds = [];
 	};
 
@@ -111,6 +114,7 @@
 
 			enable = connection.config?.enable ?? true;
 			prefixId = connection.config?.prefix_id ?? '';
+			apiVersion = connection.config?.api_version ?? '';
 			modelIds = connection.config?.model_ids ?? [];
 		}
 	};
@@ -241,6 +245,28 @@
 										/>
 									</Tooltip>
 								</div>
+							</div>
+						</div>
+
+						<div class="flex gap-2">
+							<div class="flex flex-col w-full">
+								<div class=" mb-0.5 text-xs text-gray-500">{$i18n.t('API version')}</div>
+								<Tooltip
+										content={$i18n.t(
+											'API version for Azure OpenAI service - must add for Azure, leave empty for others'
+										)}
+									>
+									<div class="flex-1">
+										<input
+											class="w-full text-sm bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-700 outline-hidden"
+											type="text"
+											bind:value={apiVersion}
+											placeholder={$i18n.t('API Version')}
+											autocomplete="off"
+											required
+										/>
+									</div>
+								</Tooltip>
 							</div>
 						</div>
 

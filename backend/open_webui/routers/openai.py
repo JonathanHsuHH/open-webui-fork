@@ -620,6 +620,7 @@ async def generate_chat_completion(
 
     url = request.app.state.config.OPENAI_API_BASE_URLS[idx]
     key = request.app.state.config.OPENAI_API_KEYS[idx]
+    api_version = api_config.get("api_version", None)
 
     # Fix: o1,o3 does not support the "max_tokens" parameter, Modify "max_tokens" to "max_completion_tokens"
     is_o1_o3 = payload["model"].lower().startswith(("o1", "o3-"))
@@ -646,13 +647,24 @@ async def generate_chat_completion(
         session = aiohttp.ClientSession(
             trust_env=True, timeout=aiohttp.ClientTimeout(total=AIOHTTP_CLIENT_TIMEOUT)
         )
-
+        requestUrl = f"{url}/chat/completions"
+        # for AzureOpenAI, add api-version and add api-key in header
+        if api_version:
+            requestUrl += f"?api-version={api_version}"
         r = await session.request(
             method="POST",
-            url=f"{url}/chat/completions",
+            url=requestUrl,
             data=payload,
             headers={
-                "Authorization": f"Bearer {key}",
+                **(
+                    {
+                        "api-key": key,
+                    }
+                    if api_version
+                    else {
+                        "Authorization": f"Bearer {key}",
+                    }
+                ),
                 "Content-Type": "application/json",
                 **(
                     {
