@@ -263,7 +263,6 @@
 											bind:value={apiVersion}
 											placeholder={$i18n.t('API Version')}
 											autocomplete="off"
-											required
 										/>
 									</div>
 								</Tooltip>
